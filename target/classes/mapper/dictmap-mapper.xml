@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.DictMapMapper">
+	
+	<select id="findDictMapListByCode" parameterType="String" resultType="DictMapDTO">
+		select 
+			`id`,
+			`key`,
+			`value`,
+			`value_name` as valueName 
+		 from `t_wwx_map` 
+		where `status` = 1
+		  and `code` = #{code, jdbcType=VARCHAR}
+     order by `order` asc
+	</select>
+	
+</mapper>

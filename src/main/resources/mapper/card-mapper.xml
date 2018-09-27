@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.CardMapper">
+
+	<select id="getCardById" parameterType="Long" resultType="CardDTO">
+		SELECT
+			t.id,
+			t.device_id,
+			t.card_type,
+			t.card_version,
+			t.chip_num,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device_card t
+		WHERE t.id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="findCards" parameterType="Long" resultType="CardDTO">
+		SELECT
+			t.id,
+			t.device_id deviceId,
+			t.card_type cardType,
+			t.card_version cardVersion,
+			t.chip_num chipNum,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser, 
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM
+			t_wwx_device_card t
+		WHERE t.device_id = #{deviceId,jdbcType=BIGINT}
+	</select>
+
+	<insert id="createCard" parameterType="CardDTO">
+		insert into t_wwx_device_card (
+			device_id,
+			card_type,
+			card_version,
+			chip_num,
+			`status`,
+			create_time,
+			create_user
+		) values (
+			#{deviceId,jdbcType=BIGINT},
+			#{cardType,jdbcType=VARCHAR},
+			#{cardVersion,jdbcType=VARCHAR},
+			#{chipNum,jdbcType=TINYINT},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateCard" parameterType="CardDTO">
+		update t_wwx_device_card 
+		set device_id = #{deviceId,jdbcType=BIGINT},
+		    card_type = #{cardType,jdbcType=VARCHAR},
+		    card_version = #{cardVersion,jdbcType=VARCHAR},
+		    chip_num = #{chipNum,jdbcType=TINYINT},
+		    `status` = #{status,jdbcType=TINYINT},
+		    update_time = now(),
+		    update_user = #{updateUser,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="deleteCard" parameterType="Long">
+		delete from t_wwx_device_card WHERE id = #{id,jdbcType=BIGINT}
+	</delete>
+
+</mapper>

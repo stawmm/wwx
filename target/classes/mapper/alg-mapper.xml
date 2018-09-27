@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.AlgMapper">
+
+	<select id="getAlgByAlgId" parameterType="Long" resultType="AlgDTO">
+		SELECT t.alg_id algId,
+			t.alg_name algName,
+			t.node_type nodeType,
+			t.card_type cardType,
+			t.`speed` * t.`core_num` speed,
+			t.alg_type_name algTypeName
+		FROM
+			`t_wwx_alg` t
+		WHERE t.alg_id = #{algId,jdbcType=BIGINT}
+	</select>
+	
+	<select id="getAlgByAlgIdAndNodeType" parameterType="map" resultType="AlgDTO">
+		SELECT
+			t.id,
+			t.node_type nodeType,
+			t.card_type cardType,
+			t.alg_id algId,
+			t.alg_type algType,
+			t.alg_type_name algTypeName,
+			t.alg_name algName,
+			t.speed,
+			t.core_num coreNum,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM
+			t_wwx_alg t
+		WHERE t.node_type = #{nodeType,jdbcType=INTEGER}
+		and t.alg_id = #{algId,jdbcType=BIGINT}
+	</select>
+	
+	
+	<select id="findAllAlgs" resultType="AlgDTO">
+		SELECT DISTINCT
+			t.alg_id algId,
+			t.alg_name algName,
+			t.alg_type_name algTypeName
+		FROM
+			`t_wwx_alg` t
+		where alg_id is not null
+	</select>
+
+	<select id="getAlgById" parameterType="Long" resultType="AlgDTO">
+		SELECT
+			t.id,
+			t.node_type nodeType,
+			t.card_type cardType,
+			t.alg_id algId,
+			t.alg_type algType,
+			t.alg_type_name algTypeName,
+			t.alg_name algName,
+			t.speed,
+			t.core_num coreNum,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM
+			t_wwx_alg t
+		WHERE t.id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="findAlgs" parameterType="Long" resultType="AlgDTO">
+		SELECT
+			t.id,
+			t.node_type nodeType,
+			t.card_type cardType,
+			t.alg_id algId,
+			t.alg_type algType,
+			t.alg_type_name algTypeName,
+			t.alg_name algName,
+			t.speed,
+			t.core_num coreNum,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM
+			t_wwx_alg t
+		where t.node_type in (
+		    select node_type from t_wwx_device t where t.id = #{deviceId,jdbcType=BIGINT}
+		)	
+	</select>
+
+	<insert id="createAlg" parameterType="AlgDTO">
+		insert into t_wwx_alg (
+			node_type,
+			card_type,
+			alg_id,
+			alg_type,
+			alg_type_name,
+			alg_name,
+			speed,
+			core_num,
+			`status`,
+			create_time,
+			create_user
+		) values (
+			#{nodeType,jdbcType=TINYINT},
+			#{cardType,jdbcType=TINYINT},
+			#{algId,jdbcType=BIGINT},
+			#{algType,jdbcType=TINYINT},
+			#{algTypeName,jdbcType=VARCHAR},
+			#{algName,jdbcType=VARCHAR},
+			#{speed,jdbcType=BIGINT},
+			#{coreNum,jdbcType=BIGINT},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateAlg" parameterType="AlgDTO">
+		update t_wwx_alg 
+		set node_type = #{nodeType,jdbcType=TINYINT},
+			card_type = #{cardType,jdbcType=TINYINT},
+			alg_id = #{algId,jdbcType=BIGINT},
+			alg_type = #{algType,jdbcType=TINYINT},
+			alg_type_name = #{algTypeName,jdbcType=VARCHAR},
+			alg_name = #{algName,jdbcType=VARCHAR},
+			speed = #{speed,jdbcType=BIGINT},
+			core_num = #{coreNum,jdbcType=BIGINT},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE t.id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<delete id="deleteAlg" parameterType="Long">
+		delete from t_wwx_alg WHERE id = #{id,jdbcType=BIGINT}
+	</delete>
+
+</mapper>

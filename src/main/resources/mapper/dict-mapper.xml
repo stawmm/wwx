@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.DictMapper">
+	
+	<select id="getDictById" parameterType="Long" resultType="DictDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`group`,
+			t.size,
+			t.`desc`,
+			t.type,
+			t.`status`,
+			t.create_user createUser,
+			t.create_time createTime,
+			t.update_user updateUser,
+			t.update_time updateTime
+		FROM
+			t_wwx_dict t
+		WHERE t.id = #{id,jdbcType=BIGINT}	
+	</select>
+	
+	<select id="getDictByName" parameterType="String" resultType="DictDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`group`,
+			t.size,
+			t.`desc`,
+			t.type,
+			t.`status`,
+			t.create_user createUser,
+			t.create_time createTime,
+			t.update_user updateUser,
+			t.update_time updateTime
+		FROM
+			t_wwx_dict t
+		WHERE t.`name` = #{name,jdbcType=VARCHAR}
+	</select>
+
+	<select id="findDeviceDicts" parameterType="Long" resultType="DictDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`group`,
+			t.size,
+			t.`desc`,
+			t.type,
+			t.`status`,
+			t.create_user createUser,
+			t.create_time createTime,
+			t.update_user updateUser,
+			t.update_time updateTime
+		FROM
+			t_wwx_dict t
+		WHERE t.`id` in (
+		    select dict_id from t_wwx_device_dict t where t.device_id = #{deviceId,jdbcType=BIGINT}
+		)
+	</select>
+	
+	<select id="findNoCheckDictByTaskId" parameterType="Long" resultType="DictDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`group`,
+			t.size,
+			t.`desc`,
+			t.type,
+			t.`status`,
+			t.create_user createUser,
+			t.create_time createTime,
+			t.update_user updateUser,
+			t.update_time updateTime
+		FROM t_wwx_dict t
+		WHERE t.`id` in (
+		    select dict_id from t_wwx_task_dict t where t.update_user is null and t.task_id = #{taskId,jdbcType=BIGINT}
+		)
+	</select>
+	
+
+	<select id="findDicts" parameterType="Map" resultType="DictDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`group`,
+			t.size,
+			t.`desc`,
+			t.type,
+			t.`status`,
+			t.create_user createUser,
+			t.create_time createTime,
+			t.update_user updateUser,
+			t.update_time updateTime
+		FROM
+			t_wwx_dict t
+		<if test="null!=searchWord and ''!=searchWord">
+    		Where ( `name` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		    or `group` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		    or `desc` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		)   
+    	</if>
+    	order by `id` desc		
+	</select>
+	
+	<select id="findDictList" parameterType="String" resultType="DictDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`group`,
+			t.size,
+			t.`desc`,
+			t.type,
+			t.`status`,
+			t.create_user createUser,
+			t.create_time createTime,
+			t.update_user updateUser,
+			t.update_time updateTime
+		FROM
+			t_wwx_dict t
+		where t.type = 0 or t.create_user = #{userName,jdbcType=VARCHAR}		
+	</select>
+	
+	<select id="findDictListByTaskId" parameterType="Long" resultType="DictDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`group`,
+			t.size,
+			t.`desc`,
+			t.type,
+			t.`status`,
+			t.create_user createUser,
+			t.create_time createTime,
+			t.update_user updateUser,
+			t.update_time updateTime
+		FROM
+			t_wwx_dict t
+		where t.id in (
+		    select dict_id from t_wwx_task_dict t where t.task_id = #{taskId,jdbcType=BIGINT}
+		)		
+	</select>
+	
+	<insert id="createDict" parameterType="DictDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_wwx_dict (
+			`name`,
+			`group`,
+			size,
+			`desc`,
+			type,
+			`status`,
+			create_time,
+			create_user
+		) values (
+			#{name,jdbcType=VARCHAR},
+			#{group,jdbcType=VARCHAR},
+			#{size,jdbcType=BIGINT},
+			#{desc,jdbcType=VARCHAR},
+			#{type,jdbcType=TINYINT},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateDict" parameterType="DictDTO">
+		update t_wwx_dict 
+		set `name` = #{name,jdbcType=VARCHAR},
+			`group` = #{group,jdbcType=VARCHAR},
+			size = #{size,jdbcType=BIGINT},
+			`desc` = #{desc,jdbcType=VARCHAR},
+			type = #{type,jdbcType=TINYINT},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=BIGINT}		
+	</update>
+
+	<delete id="deleteDict" parameterType="Long">
+		delete from t_wwx_dict WHERE id = #{id,jdbcType=BIGINT}	
+	</delete>
+	<!-- 批量删除 实现delete from t_wwx_dict where id in (1,2,3,...) 语句-->
+	<delete id="deleteDictAll">
+		delete from t_wwx_dict
+		where id in
+		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+
+
+
+
+
+
+</mapper>

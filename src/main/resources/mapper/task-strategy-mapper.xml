@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.TaskStrategyMapper">
+
+	<select id="getTaskStrategyById" parameterType="Long" resultType="TaskStrategyDTO">
+		select t.id,
+			t.`task_id` taskId,
+			t.`strategy_id` strategyId,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task_strategy t
+		WHERE t.id = #{id,jdbcType=BIGINT}	
+	</select>
+	
+	<select id="findTaskStrategys" parameterType="Long" resultType="TaskStrategyDTO">
+		select t.id,
+			t.`task_id` taskId,
+			t.`strategy_id` strategyId,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task_strategy t
+		WHERE t.task_id = #{taskId,jdbcType=BIGINT}	
+	</select>
+	
+	<insert id="createTaskStrategy" parameterType="TaskStrategyDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_wwx_task_strategy (
+			`task_id`,
+			`strategy_id`,
+			`status`,
+			create_time,
+			create_user 
+		) values (
+			#{taskId,jdbcType=BIGINT},
+			#{strategyId,jdbcType=BIGINT},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateTaskStrategy" parameterType="TaskDTO">
+		update t_wwx_task_strategy 
+		set 
+		    `task_id` = #{taskId,jdbcType=BIGINT},
+			`strategy_id` = #{strategyId,jdbcType=BIGINT},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=BIGINT} 	
+	</update>
+	
+	<delete id="deleteTaskDict" parameterType="Long">
+		delete from t_wwx_task_strategy WHERE id = #{id,jdbcType=BIGINT}	
+	</delete>	
+	
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.TaskDictMapper">
+
+	<select id="getTaskDictById" parameterType="Long" resultType="TaskDictDTO">
+		select t.id,
+			t.`task_id` taskId,
+			t.`dict_id` dictId,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task_dict t
+		WHERE t.id = #{id,jdbcType=BIGINT}	
+	</select>
+	
+	<select id="findTaskDicts" parameterType="Long" resultType="TaskDictDTO">
+		select t.id,
+			t.`task_id` taskId,
+			t.`dict_id` dictId,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task_dict t
+		WHERE t.task_id = #{taskId,jdbcType=BIGINT}	
+	</select>
+	
+	<insert id="createTaskDict" parameterType="TaskDictDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_wwx_task_dict (
+			`task_id`,
+			`dict_id`,
+			`status`,
+			create_time,
+			create_user 
+		) values (
+			#{taskId,jdbcType=BIGINT},
+			#{dictId,jdbcType=BIGINT},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateTaskDict" parameterType="TaskDTO">
+		update t_wwx_task_dict 
+		set 
+		    `task_id` = #{taskId,jdbcType=BIGINT},
+			`dict_id` = #{dictId,jdbcType=BIGINT},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=BIGINT} 	
+	</update>
+	
+	
+	<update id="updateTaskDictByTaskIdAndDictId" parameterType="TaskDTO">
+		update t_wwx_task_dict 
+		set update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE `task_id` = #{taskId,jdbcType=BIGINT} and `dict_id` = #{dictId,jdbcType=BIGINT}
+	</update>
+	
+	<delete id="deleteTaskDict" parameterType="Long">
+		delete from t_wwx_task_dict WHERE id = #{id,jdbcType=BIGINT}	
+	</delete>	
+	
+</mapper>

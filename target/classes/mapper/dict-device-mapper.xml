@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.DictDeviceMapper">
+
+	<insert id="createDictDeviceAsso" parameterType="DictDeviceDTO">
+		insert into t_wwx_device_dict (
+			dict_id,
+			device_id
+		) values (
+			#{dictId,jdbcType=BIGINT},
+			#{deviceId,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<delete id="deleteByDictId" parameterType="Long">
+		delete from t_wwx_device_dict WHERE dict_id = #{dictId,jdbcType=BIGINT}	
+	</delete>
+	
+	<delete id="deleteByDeviceId" parameterType="Long">
+		delete from t_wwx_device_dict WHERE device_id = #{deviceId,jdbcType=BIGINT}	
+	</delete>
+	
+	<delete id="deleteByDictIdAndDeviceId" parameterType="map">
+		delete from t_wwx_device_dict WHERE device_id = #{deviceId,jdbcType=BIGINT}	and dict_id = #{dictId,jdbcType=BIGINT} 
+	</delete>
+	
+	<select id="selectByDeviceAndDict" parameterType="map" resultType="DictDeviceDTO">
+		select id,
+			dict_id,
+			device_id
+		from t_wwx_device_dict
+		where dict_id = #{dictId,jdbcType=BIGINT} 
+		and device_id = #{deviceId,jdbcType=BIGINT}	
+	</select>
+	
+	<select id="selectByDeviceID" parameterType="Long" resultType="DictDeviceDTO">
+		select id,
+			dict_id,
+			device_id
+		from t_wwx_device_dict
+		where device_id = #{deviceId,jdbcType=BIGINT}	
+	</select>
+	
+	<select id="selectByDictId" parameterType="Long" resultType="DictDeviceDTO">
+		select id,
+			dict_id,
+			device_id
+		from t_wwx_device_dict
+		where dict_id = #{dictId,jdbcType=BIGINT} 
+	</select>
+	
+</mapper>

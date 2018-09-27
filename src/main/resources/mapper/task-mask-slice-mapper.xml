@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.TaskMaskSliceMapper">
+
+	<select id="getTaskMaskSliceBySubTaskId" resultType="TaskMaskSliceDTO" parameterType="Long">
+		SELECT
+			t.id,
+			t.sub_task_id subTaskId,
+			t.file_name fileName,
+			t.file_path filePath,
+			t.map_key mapKey,
+			t.jmtype,
+			t.cardnum,
+			t.sunzinum,
+			t.speed,
+			t.vaild,
+			t.finish,
+			t.file_loc fileLoc,
+			t.current_mask currentMask,
+			t.offset_loc offsetLoc,
+			t.output,
+			t.cut_file_name cutFileName,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM t_wwx_mask_slice t
+		WHERE t.sub_task_id = #{subTaskId,jdbcType=BIGINT}
+	</select>
+
+	<insert id="createTaskMaskSlice" parameterType="TaskMaskSliceDTO" keyProperty="id" useGeneratedKeys="true">
+		insert into t_wwx_mask_slice (
+			sub_task_id,
+	        file_name,
+	        file_path,
+	        map_key,
+			jmtype,
+			cardnum,
+			sunzinum,
+			speed,
+	        vaild,
+	        finish,
+	        file_loc ,
+	        current_mask,
+	        offset_loc,
+	        output,
+	        cut_file_name,
+	        `status`,
+	        create_time,
+	        create_user
+		) values (
+			#{subTaskId,jdbcType=BIGINT},
+			#{fileName,jdbcType=VARCHAR},
+			#{filePath,jdbcType=VARCHAR},
+			#{mapKey,jdbcType=VARCHAR},
+			#{jmtype,jdbcType=INTEGER},
+			#{cardnum,jdbcType=INTEGER},
+			#{sunzinum,jdbcType=INTEGER},
+			#{speed,jdbcType=BIGINT},
+			#{vaild,jdbcType=INTEGER},
+			#{finish,jdbcType=INTEGER},
+			#{fileLoc,jdbcType=BIGINT},
+			#{currentMask,jdbcType=VARCHAR},
+			#{offsetLoc,jdbcType=INTEGER},
+			#{output,jdbcType=VARCHAR},
+			#{cutFileName,jdbcType=VARCHAR},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+</mapper>

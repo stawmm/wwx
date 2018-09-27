@@ -1,0 +1,7 @@
+## Druid DataSource监控
+     url: http://localhost:8090/wwx/druid/sql.html
+username: root
+password: 123
+
+## swagger 路径
+     url: http://localhost:8090/wwx/swagger-ui.html

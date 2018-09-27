@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.UserMapper">
+
+    <select id="getUserById" parameterType="Long" resultType="UserDTO">
+        SELECT 
+        	`id`, 
+        	`user_name` as userName, 
+        	`user_no` as userNo,
+        	`pass_word` as passWord,
+        	`salt`,
+        	`real_name` as realName,
+        	`sex`,
+        	`phone`,
+        	`user_type` as userType,
+        	`status`,
+        	`create_time` as createTime,
+        	`create_user` as createUser,
+        	`update_time` as updateTime,
+        	`update_user` as updateUser
+        FROM t_wwx_user 
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    
+    <select id="getUserByName" parameterType="String" resultType="UserDTO">
+    	SELECT 
+        	`id`, 
+        	`user_name` as userName, 
+        	`user_no` as userNo,
+        	`pass_word` as passWord,
+        	`salt`,
+        	`real_name` as realName,
+        	`sex`,
+        	`phone`,
+        	`user_type` as userType,
+        	`status`,
+        	`create_time` as createTime,
+        	`create_user` as createUser,
+        	`update_time` as updateTime,
+        	`update_user` as updateUser
+        FROM t_wwx_user 
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="findUsers" parameterType="java.util.Map" resultType="UserDTO">
+    	SELECT 
+        	`id`, 
+        	`user_name` as userName,
+        	`user_no` as userNo, 
+        	`pass_word` as passWord,
+        	`salt`,
+        	`real_name` as realName,
+        	`sex`,
+        	`phone`,
+        	`user_type` as userType,
+        	`status`,
+        	`create_time` as createTime,
+        	`create_user` as createUser,
+        	`update_time` as updateTime,
+        	`update_user` as updateUser
+        FROM t_wwx_user 
+        where (`user_type` = 0  or `user_name` =  #{userName,jdbcType=VARCHAR})
+    	<if test="null!=searchWord and ''!=searchWord">
+    		And ( `user_name` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or `user_no` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or `phone` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or `real_name` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		)   
+    	</if>
+    	
+    </select>
+    
+    <insert id="createUser" parameterType="UserDTO">
+    	insert into `t_wwx_user`(
+    		`user_name`, 
+    		`user_no`,
+        	`pass_word`,
+        	`salt`,
+        	`real_name`,
+        	`sex`,
+        	`phone`,
+        	`user_type`,
+        	`status`,
+        	`create_time`,
+        	`create_user`
+    	) values (
+    		#{userName,jdbcType=VARCHAR},
+    		#{userNo,jdbcType=VARCHAR},
+    		#{passWord,jdbcType=VARCHAR},
+    		#{salt,jdbcType=VARCHAR},
+    		#{realName,jdbcType=VARCHAR},
+    		#{sex,jdbcType=TINYINT},
+    		#{phone,jdbcType=VARCHAR},
+    		#{userType,jdbcType=TINYINT},
+    		#{status,jdbcType=TINYINT},
+    		now(),
+    		#{createUser,jdbcType=VARCHAR}
+    	)
+    </insert>
+    
+    <update id="updateUser" parameterType="UserDTO">
+    	update `t_wwx_user`
+    	set `user_name` = #{userName, jdbcType=VARCHAR},
+    		`user_no` = #{userNo, jdbcType=VARCHAR},
+        	`pass_word` = #{passWord, jdbcType=VARCHAR},
+        	`salt` = #{salt, jdbcType=VARCHAR},
+        	`real_name` = #{realName, jdbcType=VARCHAR},
+        	`sex` = #{sex, jdbcType=TINYINT},
+        	`phone` = #{phone, jdbcType=VARCHAR},
+        	`user_type` = #{userType, jdbcType=TINYINT},
+        	`status` = #{status, jdbcType=TINYINT},
+        	`update_time` = now(),
+        	`update_user` = #{updateUser, jdbcType=VARCHAR}
+    	where id = #{id,jdbcType=BIGINT}
+    </update>
+    
+    <delete id="deleteUser" parameterType="Long">
+    	delete from `t_wwx_user` where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <!--批量删除-->
+	<delete id="deleteUserAll">
+		delete from t_wwx_user where id in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")" >
+			#{item}
+		</foreach>
+	</delete>
+    
+    <update id="enableUser" parameterType="Long">
+    	update `t_wwx_user` set `status` = 1 where id = #{id,jdbcType=BIGINT}
+    </update>
+    
+    <update id="disabledUser" parameterType="Long">
+    	update `t_wwx_user` set `status` = 0 where id = #{id,jdbcType=BIGINT}
+    </update>
+    
+    <update id="resetPassWord" parameterType="map">
+    	update `t_wwx_user` set `pass_word` = #{pwd,jdbcType=VARCHAR} where id = #{id,jdbcType=BIGINT}
+    </update>
+    
+</mapper>

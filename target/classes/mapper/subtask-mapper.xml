@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.SubTaskMapper">
+
+	<select id="getSubTaskById" parameterType="Long" resultType="SubTaskDTO">
+		SELECT
+			t.id,
+			t.task_id taskId,
+			t.device_id deviceId,
+			t.card_type cardType,
+			t.alg_id algId,
+			t.crack_info crackInfo,
+			t.crack_mode crackMode,
+			t.card_num cardNum,
+			t.cut_info_names cutInfoNames,
+			t.time_count timeCount,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM
+			t_wwx_sub_task t
+		where t.id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<select id="getDeviceSubTask" parameterType="Long" resultType="SubTaskDTO">
+		SELECT
+			t.id,
+			t.task_id taskId,
+			t.device_id deviceId,
+			t.card_type cardType,
+			t.alg_id algId,
+			t.crack_info crackInfo,
+			t.crack_mode crackMode,
+			t.card_num cardNum,
+			t.cut_info_names cutInfoNames,
+			t.time_count timeCount,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM
+			t_wwx_sub_task t
+		where t.id = (
+			select task_id from t_wwx_device where id = #{deviceId,jdbcType=BIGINT}
+		)
+	</select>
+	
+	<select id="findSubTasks" parameterType="Long" resultType="SubTaskDTO">
+		SELECT
+			t.id,
+			t.task_id taskId,
+			t.device_id deviceId,
+			t.card_type cardType,
+			t.alg_id algId,
+			t.crack_info crackInfo,
+			t.crack_mode crackMode,
+			t.card_num cardNum,
+			t.cut_info_names cutInfoNames,
+			t.time_count timeCount,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM t_wwx_sub_task t
+		where t.task_id = #{taskId,jdbcType=BIGINT}
+	</select>
+	
+	<select id="findRunSubTasks" parameterType="Long" resultType="SubTaskDTO">
+		SELECT
+			t.id,
+			t.task_id taskId,
+			t.device_id deviceId,
+			t.card_type cardType,
+			t.alg_id algId,
+			t.crack_info crackInfo,
+			t.crack_mode crackMode,
+			t.card_num cardNum,
+			t.cut_info_names cutInfoNames,
+			t.time_count timeCount,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM t_wwx_sub_task t
+		where t.task_id = #{taskId,jdbcType=BIGINT}
+		and t.`status` = 3
+	</select>
+	
+	<select id="findSuspendSubTasks" parameterType="Long" resultType="SubTaskDTO">
+		SELECT
+			t.id,
+			t.device_id deviceId,
+			t.task_id taskId,
+			t.card_type cardType,
+			t.alg_id algId,
+			t.crack_info crackInfo,
+			t.crack_mode crackMode,
+			t.card_num cardNum,
+			t.cut_info_names cutInfoNames,
+			t.time_count timeCount,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM t_wwx_sub_task t
+		where t.task_id = #{taskId,jdbcType=BIGINT}
+		and t.`status` = 5
+	</select>
+	
+	<select id="findfaultSubTasks" parameterType="Long" resultType="SubTaskDTO">
+		SELECT
+			t.id,
+			t.task_id taskId,
+			t.device_id deviceId,
+			t.card_type cardType,
+			t.alg_id algId,
+			t.crack_info crackInfo,
+			t.crack_mode crackMode,
+			t.card_num cardNum,
+			t.cut_info_names cutInfoNames,
+			t.time_count timeCount,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM t_wwx_sub_task t
+		where t.task_id = #{taskId,jdbcType=BIGINT}
+		and t.`status` = 4
+	</select>
+	
+	<insert id="createSubTask" parameterType="SubTaskDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_wwx_sub_task(
+			task_id,
+			device_id,
+			card_type,
+			alg_id,
+			crack_info,
+			crack_mode,
+			card_num,
+			cut_info_names,
+			time_count,
+			`status`,
+			create_time,
+			create_user 
+		) values(
+			#{taskId,jdbcType=BIGINT},
+			#{deviceId,jdbcType=BIGINT},
+			#{cardType,jdbcType=TINYINT},
+			#{algId,jdbcType=BIGINT},
+			#{crackInfo,jdbcType=VARCHAR},
+			#{crackMode,jdbcType=TINYINT},
+			#{cardNum,jdbcType=TINYINT},
+			#{cutInfoNames,jdbcType=VARCHAR},
+			#{timeCount,jdbcType=BIGINT},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<update id="updateSubTask" parameterType="SubTaskDTO">
+		update t_wwx_sub_task 
+		set task_id = #{taskId,jdbcType=BIGINT},
+			device_id = #{deviceId,jdbcType=BIGINT},
+			card_type = #{cardType,jdbcType=TINYINT},
+			alg_id = #{algId,jdbcType=BIGINT},
+			crack_info = #{crackInfo,jdbcType=VARCHAR},
+			crack_mode = #{crackMode,jdbcType=TINYINT},
+			card_num = #{cardNum,jdbcType=TINYINT},
+			cut_info_names = #{cutInfoNames,jdbcType=VARCHAR},
+			time_count = #{timeCount,jdbcType=BIGINT},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<delete id="deleteSubTask" parameterType="Long">
+		delete from t_wwx_sub_task WHERE id = #{id,jdbcType=BIGINT}
+	</delete>
+
+</mapper>

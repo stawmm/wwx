@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.DeviceMapper">
+
+	<select id="getDeviceById" parameterType="Long" resultType="DeviceDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.ip,
+			t.`port`,
+			t.mac,
+			t.node_type nodeType,
+			t.card_num cardNum,
+			t.alg_num algNum,
+			t.dict_num dictNum,
+			t.role_type roleType,
+			t.fault_times faultTimes,
+			t.task_id taskId,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device t
+		WHERE t.id = #{id,jdbcType=BIGINT}	
+	</select>
+	
+	<select id="getDeviceByTaskId" parameterType="Long" resultType="DeviceDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.ip,
+			t.`port`,
+			t.mac,
+			t.node_type nodeType,
+			t.card_num cardNum,
+			t.alg_num algNum,
+			t.dict_num dictNum,
+			t.role_type roleType,
+			t.fault_times faultTimes,
+			t.task_id taskId,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device t
+		WHERE t.`task_id` = #{taskId,jdbcType=BIGINT}
+	</select>
+	
+	<select id="getDeviceByName" parameterType="String" resultType="DeviceDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.ip,
+			t.`port`,
+			t.mac,
+			t.node_type nodeType,
+			t.card_num cardNum,
+			t.alg_num algNum,
+			t.dict_num dictNum,
+			t.role_type roleType,
+			t.fault_times faultTimes,
+			t.task_id taskId,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device t
+		WHERE t.`name` = #{name,jdbcType=VARCHAR}	
+	</select>
+	
+	<select id="getDeviceByIp" parameterType="String" resultType="DeviceDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.ip,
+			t.`port`,
+			t.mac,
+			t.node_type nodeType,
+			t.card_num cardNum,
+			t.alg_num algNum,
+			t.dict_num dictNum,
+			t.role_type roleType,
+			t.fault_times faultTimes,
+			t.task_id taskId,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device t
+		WHERE t.`ip` = #{ip,jdbcType=VARCHAR}	
+	</select>
+	
+	<select id="findAllDevices" resultType="DeviceDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.ip,
+			t.`port`,
+			t.mac,
+			t.node_type nodeType,
+			t.card_num cardNum,
+			t.alg_num algNum,
+			t.dict_num dictNum,
+			t.role_type roleType,
+			t.fault_times faultTimes,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device t
+	</select>
+	
+	<select id="findDevicesByTaskId" parameterType="Long" resultType="DeviceDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.ip,
+			t.`port`,
+			t.mac,
+			t.node_type nodeType,
+			t.card_num cardNum,
+			t.alg_num algNum,
+			t.dict_num dictNum,
+			t.role_type roleType,
+			t.fault_times faultTimes,
+			t.task_id taskId,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device t
+		where id in (
+			select device_id from t_wwx_sub_task where task_id = #{taskId,jdbcType=BIGINT}
+		)
+	</select>
+	
+	<select id="findDevicesByDictId" parameterType="Long" resultType="DeviceDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.ip,
+			t.`port`,
+			t.mac,
+			t.node_type nodeType,
+			t.card_num cardNum,
+			t.alg_num algNum,
+			t.dict_num dictNum,
+			t.role_type roleType,
+			t.fault_times faultTimes,
+			t.task_id taskId,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device t
+		where id in (
+			select device_id from t_wwx_device_dict where dict_id = #{dictId,jdbcType=BIGINT}
+		)		
+	</select>
+	
+	<select id="findDevices" parameterType="Map" resultType="DeviceDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.ip,
+			t.`port`,
+			t.mac,
+			t.node_type nodeType,
+			t.card_num cardNum,
+			t.alg_num algNum,
+			t.dict_num dictNum,
+			t.role_type roleType,
+			t.fault_times faultTimes,
+			t.task_id taskId,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device t
+		<if test="null!=searchWord and ''!=searchWord">
+    		Where ( `name` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or `ip` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or `mac` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		)   
+    	</if>
+    	order by role_type desc, `id` desc 
+	</select>
+
+	<insert id="createDevice" parameterType="DeviceDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_wwx_device (
+			`name`,
+			`desc`,
+			ip,
+			`port`,
+			mac,
+			node_type,
+			card_num,
+			alg_num,
+			dict_num,
+			role_type,
+			fault_times,
+			task_id,
+			`status`,
+			create_time,
+			create_user
+		) values (
+			#{name,jdbcType=VARCHAR},
+			#{desc,jdbcType=VARCHAR},
+			#{ip,jdbcType=VARCHAR},
+			#{port,jdbcType=TINYINT},
+			#{mac,jdbcType=VARCHAR},
+			#{nodeType,jdbcType=VARCHAR},
+			#{cardNum,jdbcType=TINYINT},
+			#{algNum,jdbcType=TINYINT},
+			#{dictNum,jdbcType=TINYINT},
+			#{roleType,jdbcType=TINYINT},
+			#{faultTimes,jdbcType=TINYINT},
+			#{taskId,jdbcType=BIGINT},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateDevice" parameterType="DeviceDTO">
+		update t_wwx_device
+		set `name` = #{name,jdbcType=VARCHAR},
+			`desc` = #{desc,jdbcType=VARCHAR},
+			ip = #{ip,jdbcType=VARCHAR},
+			`port` = #{port,jdbcType=TINYINT},
+			mac = #{mac,jdbcType=VARCHAR},
+			node_type = #{nodeType,jdbcType=VARCHAR},
+			card_num = #{cardNum,jdbcType=TINYINT},
+			alg_num = #{algNum,jdbcType=TINYINT},
+			dict_num = #{dictNum,jdbcType=TINYINT},
+			role_type = #{roleType,jdbcType=TINYINT},
+			fault_times = #{faultTimes,jdbcType=TINYINT},
+			task_id = #{taskId,jdbcType=BIGINT},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=BIGINT}	
+	</update>
+
+	<delete id="deleteDevice" parameterType="Long">
+		delete from t_wwx_device WHERE id = #{id,jdbcType=BIGINT}	
+	</delete>
+	
+	<select id="findDevicesByGpu" resultType="DeviceDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.ip,
+			t.`port`,
+			t.mac,
+			t.node_type nodeType,
+			t.card_num cardNum,
+			t.alg_num algNum,
+			t.dict_num dictNum,
+			t.role_type roleType,
+			t.fault_times faultTimes,
+			t.task_id taskId,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device t
+		WHERE t.node_type in (0)
+	</select>
+	
+	<select id="findDevicesByFpga" resultType="DeviceDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.ip,
+			t.`port`,
+			t.mac,
+			t.node_type nodeType,
+			t.card_num cardNum,
+			t.alg_num algNum,
+			t.dict_num dictNum,
+			t.role_type roleType,
+			t.fault_times faultTimes,
+			t.task_id taskId,
+			t.`status`,
+			t.create_time,
+			t.create_user,
+			t.update_time,
+			t.update_user
+		FROM
+			t_wwx_device t
+		WHERE t.node_type in (1,2)
+	</select>
+
+	<update id="updateDeviceErrorTimes" parameterType="map">
+		update t_wwx_device set fault_times = #{errorTimes,jdbcType=TINYINT} where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateDeviceStatus" parameterType="map">
+		update t_wwx_device set `status` = #{status,jdbcType=TINYINT} where id = #{deviceId,jdbcType=BIGINT}
+	</update>
+
+</mapper>

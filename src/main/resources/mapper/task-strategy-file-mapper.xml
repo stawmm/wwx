@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.TaskStrategyFileMapper">
+
+	<select id="getTaskStrategyFileByTaskId" parameterType="Long" resultType="TaskStrategyFileDTO">
+		SELECT t.id,
+	         t.task_id taskId,
+	         t.file_name fileName,
+	         t.file_path filePath,
+	         t.`prepare` prepare,
+	         t.vaild,
+	         t.finish,
+	         t.file_loc fileLoc,
+	         t.current_mask currentMask,
+	         t.offset_loc offsetLoc,
+	         t.output,
+	         t.cut_file_name cutFileName,
+	         t.`status`,
+	         t.create_time createTime,
+	         t.create_user createUser,
+	         t.update_time updateTime,
+	         t.update_user updateUser
+		FROM t_wwx_task_strategy_file t
+		where t.task_id = #{taskId,jdbcType=BIGINT}
+	</select>
+	
+	<insert id="createTaskStrategyFile" parameterType="TaskStrategyFileDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_wwx_task_strategy_file (
+			task_id,
+	        file_name,
+	        file_path,
+	        `prepare`,
+	        vaild,
+	        finish,
+	        file_loc ,
+	        current_mask,
+	        offset_loc,
+	        output,
+	        cut_file_name,
+	        `status`,
+	        create_time,
+	        create_user
+		) values (
+			#{taskId,jdbcType=BIGINT},
+			#{fileName,jdbcType=VARCHAR},
+			#{filePath,jdbcType=VARCHAR},
+			#{prepare,jdbcType=INTEGER},
+			#{vaild,jdbcType=INTEGER},
+			#{finish,jdbcType=INTEGER},
+			#{fileLoc,jdbcType=BIGINT},
+			#{currentMask,jdbcType=VARCHAR},
+			#{offsetLoc,jdbcType=INTEGER},
+			#{output,jdbcType=VARCHAR},
+			#{cutFileName,jdbcType=VARCHAR},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<update id="updateTaskStrategyFile" parameterType="TaskStrategyFileDTO">
+		update t_wwx_task_strategy_file 
+		set task_id = #{taskId,jdbcType=BIGINT},
+	        file_name = #{fileName,jdbcType=VARCHAR},
+	        file_path = #{filePath,jdbcType=VARCHAR},
+	        `prepare` = #{prepare,jdbcType=INTEGER},
+	        vaild = #{vaild,jdbcType=INTEGER},
+	        finish = #{finish,jdbcType=INTEGER},
+	        file_loc = #{fileLoc,jdbcType=BIGINT},
+	        current_mask = #{currentMask,jdbcType=VARCHAR},
+	        offset_loc = #{offsetLoc,jdbcType=INTEGER},
+	        output = #{output,jdbcType=VARCHAR},
+	        cut_file_name = #{cutFileName,jdbcType=VARCHAR},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+</mapper>

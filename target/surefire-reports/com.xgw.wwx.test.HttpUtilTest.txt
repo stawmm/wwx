@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.xgw.wwx.test.HttpUtilTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 4, Time elapsed: 0.015 sec - in com.xgw.wwx.test.HttpUtilTest
