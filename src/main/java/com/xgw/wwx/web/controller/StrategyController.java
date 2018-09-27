@@ -163,6 +163,27 @@ public class StrategyController {
 			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(BaseCodeEnum.SYSTEM_ERROR.getCode(), BaseCodeEnum.SYSTEM_ERROR.getMessage()));
 		}
 	}
+
+	@DeleteMapping("/batchDeleteStrategy")
+	public ResponseEntity<CommonResponseDTO<Boolean>> deleteStrategyAll(HttpServletRequest request,@RequestParam("ids") int[] ids) {
+		String userName = AuthHelper.getUserName(request);
+		Long strategyId = Long.parseLong(request.getParameter("id"));
+		StrategyDTO strategyDTO = null;
+		try {
+			strategyDTO = strategyService.getStrategyById(strategyId);
+			strategyService.deleteStrategyAll(ids);
+			hzLoggerService.createSuccessLogger(userName, "删除策略", "策略模块", "用户“" + userName + "”删除策略“"  + strategyDTO.getName() + "”成功！");
+			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(Boolean.TRUE, true));
+		} catch (WxxRuntimeException e) {
+			logger.error("-- deleteStrategy Exception error --", e);
+			hzLoggerService.createFailedLogger(userName, "删除策略", "策略模块", e.getCode(), "用户“" + userName + "”删除策略“"  + strategyDTO.getName() + "”失败！错误：" + e.getMessage());
+			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(e.getCode(), e.getMessage()));
+		} catch (Exception e){
+			logger.error("-- deleteStrategy Exception error --", e);
+			hzLoggerService.createFailedLogger(userName, "删除策略", "策略模块", BaseCodeEnum.SYSTEM_ERROR.getCode(), "用户“" + userName + "”删除策略“"  + strategyDTO.getName() + "”失败！错误：" + BaseCodeEnum.SYSTEM_ERROR.getMessage());
+			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(BaseCodeEnum.SYSTEM_ERROR.getCode(), BaseCodeEnum.SYSTEM_ERROR.getMessage()));
+		}
+	}
 	
 	@GetMapping(value = "/type/list")
 	public ResponseEntity<CommonResponseDTO<List<Map<String, Object>>>> findStrategyType() {
