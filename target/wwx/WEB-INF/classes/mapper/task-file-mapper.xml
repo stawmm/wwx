@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.TaskFileMapper">
+
+	<select id="getTaskFileById" parameterType="Long" resultType="TaskFileDTO">
+		select t.id,
+			t.`task_id` taskId,
+			t.`file_name` fileName,
+			t.`file_path` filePath,
+			t.`alg_name` algName,
+			t.`alg_id` algId,
+			t.`special_char` specialChar,
+			t.`special_file_name` specialFileName,
+			t.`special_file_path` specialFilePath,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task_file t
+		WHERE t.id = #{id,jdbcType=BIGINT}	
+	</select>
+	
+	<select id="findTaskFiles" parameterType="Long" resultType="TaskFileDTO">
+		select t.id,
+			t.`task_id` taskId,
+			t.`file_name` fileName,
+			t.`file_path` filePath,
+			t.`alg_name` algName,
+			t.`alg_id` algId,
+			t.`special_char` specialChar,
+			t.`special_file_name` specialFileName,
+			t.`special_file_path` specialFilePath,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task_file t 
+		WHERE t.task_id = #{taskId,jdbcType=BIGINT}	
+	</select>
+	
+	<insert id="createTaskFile" parameterType="TaskFileDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_wwx_task_file (
+			`task_id` ,
+			`file_name` ,
+			`file_path` ,
+			`alg_name` ,
+			`alg_id` ,
+			`special_char` ,
+			`special_file_name` ,
+			`special_file_path` ,
+			`status`,
+			create_time,
+			create_user 
+		) values (
+			#{taskId,jdbcType=BIGINT},
+			#{fileName,jdbcType=VARCHAR},
+			#{filePath,jdbcType=VARCHAR},
+			#{algName,jdbcType=VARCHAR},
+			#{algId,jdbcType=BIGINT},
+			#{specialChar,jdbcType=VARCHAR},
+			#{specialFileName,jdbcType=VARCHAR},
+			#{specialFilePath,jdbcType=VARCHAR},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateTaskFile" parameterType="TaskDTO">
+		update t_wwx_task_file 
+		set 
+		    `task_id` = #{taskId,jdbcType=BIGINT},
+			`file_name` = #{fileName,jdbcType=VARCHAR},
+			`file_path` = #{filePath,jdbcType=VARCHAR},
+			`alg_name` = #{algName,jdbcType=VARCHAR},
+			`alg_id` = #{algId,jdbcType=BIGINT},
+			`special_char` = #{specialChar,jdbcType=VARCHAR},
+			`special_file_name` = #{specialFileName,jdbcType=VARCHAR},
+			`special_file_path` = #{specialFilePath,jdbcType=VARCHAR},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=BIGINT} 	
+	</update>
+	
+	<delete id="deleteTaskFile" parameterType="Long">
+		delete from t_wwx_task_file WHERE id = #{id,jdbcType=BIGINT}	
+	</delete>	
+	
+</mapper>

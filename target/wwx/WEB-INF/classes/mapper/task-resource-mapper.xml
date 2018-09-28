@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.TaskResourceMapper">
+
+	<select id="getTaskResourceById" parameterType="Long" resultType="TaskResourceDTO">
+		select t.id,
+			t.`task_id` taskId,
+			t.`node_type` nodeType,
+			t.`node_num` nodeNum,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task_resource t
+		WHERE t.id = #{id,jdbcType=BIGINT}	
+	</select>
+	
+	<select id="findTaskResourcesByTaskId" parameterType="Long" resultType="TaskResourceDTO">
+		select t.id,
+			t.`task_id` taskId,
+			t.`node_type` nodeType,
+			t.`node_num` nodeNum,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task_resource t
+		WHERE t.task_id = #{taskId,jdbcType=BIGINT}	
+	</select>
+		
+	<select id="findTaskResources" resultType="TaskResourceDTO">
+		SELECT
+			s.node_type as nodeType,
+			t.`value` as nodeName,
+			s.nodeNum as totalNum,
+			0 as nodeNum
+		FROM
+			t_wwx_map t
+		LEFT JOIN (
+			SELECT
+				node_type,
+				count(0) AS nodeNum
+			FROM t_wwx_device t
+			WHERE t.`status` = 1
+			GROUP BY node_type
+		) s ON t.`key` = s.node_type
+		WHERE
+			t.`code` = 'NODE_TYPE'
+		AND t.`status` = 1
+		AND s.node_type IS NOT NULL
+	</select>
+	
+	<insert id="createTaskResource" parameterType="TaskResourceDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_wwx_task_resource (
+			`task_id`,
+			`node_type`,
+			`node_num`,
+			`status`,
+			create_time,
+			create_user 
+		) values (
+			#{taskId,jdbcType=BIGINT},
+			#{nodeType,jdbcType=TINYINT},
+			#{nodeNum,jdbcType=TINYINT},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateTaskResource" parameterType="TaskDTO">
+		update t_wwx_task_resource 
+		set 
+		    `task_id` = #{taskId,jdbcType=BIGINT},
+			`node_type` = #{nodeType,jdbcType=TINYINT},
+			`node_num` = #{nodeNum,jdbcType=TINYINT},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=BIGINT} 	
+	</update>
+	
+	<delete id="deleteTaskResource" parameterType="Long">
+		delete from t_wwx_task_resource WHERE id = #{id,jdbcType=BIGINT}	
+	</delete>	
+	
+</mapper>

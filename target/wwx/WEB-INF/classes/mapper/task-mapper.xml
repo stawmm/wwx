@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.TaskMapper">
+
+	<select id="getTaskById" parameterType="Long" resultType="TaskDTO">
+		select t.id,
+			t.`name`,
+			t.`desc`,
+			t.type,
+			t.has_vpndes hasVpndes,
+			t.hit_pwd hitPwd,
+			t.remain_time remainTime,
+			t.predict_time predictTime,
+			t.dict_command dictCommand,
+			t.dict_run_command dictRunCommand,
+			t.strategy_command strategyCommand,
+			t.strategy_run_command strategyRunCommand,
+			t.`total_count` totalCount,
+  			t.`run_count` runCount,
+  			t.`remain_count` remainCount,
+  			t.`finish_time` finishTime,
+			t.submit_time submitTime,
+			t.his_async hisAsync,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task t
+		WHERE t.id = #{id,jdbcType=BIGINT}	
+	</select>
+	
+	<select id="getTaskByName" parameterType="String" resultType="TaskDTO">
+		select t.id,
+			t.`name`,
+			t.`desc`,
+			t.type,
+			t.has_vpndes hasVpndes,
+			t.hit_pwd hitPwd,
+			t.remain_time remainTime,
+			t.predict_time predictTime,
+			t.dict_command dictCommand,
+			t.dict_run_command dictRunCommand,
+			t.strategy_command strategyCommand,
+			t.strategy_run_command strategyRunCommand,
+			t.`total_count` totalCount,
+  			t.`run_count` runCount,
+  			t.`remain_count` remainCount,
+  			t.`finish_time` finishTime,
+			t.submit_time submitTime,
+			t.his_async hisAsync,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task t
+		WHERE t.`name` = #{name,jdbcType=VARCHAR}	
+	</select>
+	
+	<select id="findHistoryTasks" parameterType="Map" resultType="TaskDTO">
+		select t.id,
+			t.`name`,
+			t.`desc`,
+			t.type,
+			t.has_vpndes hasVpndes,
+			t.hit_pwd hitPwd,
+			t.remain_time remainTime,
+			t.predict_time predictTime,
+			t.dict_command dictCommand,
+			t.dict_run_command dictRunCommand,
+			t.strategy_command strategyCommand,
+			t.strategy_run_command strategyRunCommand,
+			t.`total_count` totalCount,
+  			t.`run_count` runCount,
+  			t.`remain_count` remainCount,
+  			t.`finish_time` finishTime,
+			t.submit_time submitTime,
+			t.his_async hisAsync,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task t 
+		inner join t_wwx_task_file tf 
+		on t.id = tf.task_id
+		inner join t_wwx_task_resource tr 
+		on t.id = tr.task_id
+		where his_async = 1 
+		<if test="'admin'!=createUser and 'root'!=createUser">
+			And t.create_user = #{createUser,jdbcType=VARCHAR}
+		</if>
+		<if test="null!=searchWord and ''!=searchWord">
+    		And ( t.`name` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or t.`desc` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or t.`type` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		)   
+    	</if>
+    	<if test="null!=algId">
+    		And tf.alg_id = #{algId,jdbcType=BIGINT}
+    	</if>
+    	<if test="null!=nodeId">
+    		And tr.node_type = #{nodeId,jdbcType=INTEGER}
+    	</if>
+    	<if test="null!=statusId">
+    		And t.`status` = #{statusId,jdbcType=INTEGER}
+    	</if>
+    	<if test="null!=startDate">
+    		And t.create_time >= #{startDate,jdbcType=TIMESTAMP}
+    	</if>
+    	<if test="null!=endDate">
+    		<![CDATA[ And t.create_time <= #{endDate,jdbcType=TIMESTAMP} ]]> 
+    	</if>
+    	order by `finish_time` desc, `id` desc 
+	</select>
+	
+	<select id="findCompeleteTasks" resultType="TaskDTO">
+		select t.id,
+			t.`name`,
+			t.`desc`,
+			t.type,
+			t.has_vpndes hasVpndes,
+			t.hit_pwd hitPwd,
+			t.remain_time remainTime,
+			t.predict_time predictTime,
+			t.dict_command dictCommand,
+			t.dict_run_command dictRunCommand,
+			t.strategy_command strategyCommand,
+			t.strategy_run_command strategyRunCommand,
+			t.`total_count` totalCount,
+  			t.`run_count` runCount,
+  			t.`remain_count` remainCount,
+  			t.`finish_time` finishTime,
+			t.submit_time submitTime,
+			t.his_async hisAsync,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task t
+		where his_async = 0
+		And `status` in (1,2)
+	</select>
+	
+	<select id="findNoCompleteTasks" parameterType="Integer" resultType="TaskDTO">
+		select t.id,
+			t.`name`,
+			t.`desc`,
+			t.type,
+			t.has_vpndes hasVpndes,
+			t.hit_pwd hitPwd,
+			t.remain_time remainTime,
+			t.predict_time predictTime,
+			t.dict_command dictCommand,
+			t.dict_run_command dictRunCommand,
+			t.strategy_command strategyCommand,
+			t.strategy_run_command strategyRunCommand,
+			t.`total_count` totalCount,
+  			t.`run_count` runCount,
+  			t.`remain_count` remainCount,
+  			t.`finish_time` finishTime,
+			t.submit_time submitTime,
+			t.his_async hisAsync,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task t
+		where his_async = 0
+		And `status` in (0,3)
+	</select>
+	
+	<select id="findTasks" parameterType="Map" resultType="TaskDTO">
+		select t.id,
+			t.`name`,
+			t.`desc`,
+			t.type,
+			t.has_vpndes hasVpndes,
+			t.hit_pwd hitPwd,
+			t.remain_time remainTime,
+			t.predict_time predictTime,
+			t.dict_command dictCommand,
+			t.dict_run_command dictRunCommand,
+			t.strategy_command strategyCommand,
+			t.strategy_run_command strategyRunCommand,
+			t.`total_count` totalCount,
+  			t.`run_count` runCount,
+  			t.`remain_count` remainCount,
+  			t.`finish_time` finishTime,
+			t.submit_time submitTime,
+			t.his_async hisAsync,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		from t_wwx_task t
+		inner join t_wwx_task_file tf 
+		on t.id = tf.task_id
+		inner join t_wwx_task_resource tr 
+		on t.id = tr.task_id
+		where his_async = 0
+		And t.`status` != 9
+		<if test="'admin'!=createUser and 'root'!=createUser">
+			And t.create_user = #{createUser,jdbcType=VARCHAR}
+		</if>
+		<if test="null!=searchWord and ''!=searchWord">
+    		And ( t.`name` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or t.`desc` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or t.`type` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		)   
+    	</if>
+    	<if test="null!=algId">
+    		And tf.alg_id = #{algId,jdbcType=BIGINT}
+    	</if>
+    	<if test="null!=nodeId">
+    		And tr.node_type = #{nodeId,jdbcType=INTEGER}
+    	</if>
+    	<if test="null!=statusId">
+    		And t.`status` = #{statusId,jdbcType=INTEGER}
+    	</if>
+    	<if test="null!=startDate">
+    		And t.create_time >= #{startDate,jdbcType=TIMESTAMP}
+    	</if>
+    	<if test="null!=endDate">
+    		<![CDATA[ And t.create_time <= #{endDate,jdbcType=TIMESTAMP} ]]> 
+    	</if>
+    	order by id desc
+	</select>
+	
+	<insert id="createTask" parameterType="TaskDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_wwx_task (
+			`name`,
+			`desc`,
+			type,
+			has_vpndes,
+			remain_time,
+			predict_time,
+			dict_command,
+			dict_run_command,
+			strategy_command,
+			strategy_run_command,
+			`total_count`,
+  			`run_count`,
+  			`remain_count`,
+  			`finish_time`,
+			submit_time,
+			his_async,
+			`status`,
+			create_time,
+			create_user 
+		) values (
+			#{name,jdbcType=VARCHAR},
+			#{desc,jdbcType=VARCHAR},
+			#{type,jdbcType=TINYINT},
+			#{hasVpndes,jdbcType=TINYINT},
+			#{remainTime,jdbcType=BIGINT},
+			#{predictTime,jdbcType=BIGINT},
+			#{dictCommand,jdbcType=BIGINT},
+			#{dictRunCommand,jdbcType=BIGINT},
+			#{strategyCommand,jdbcType=BIGINT},
+			#{strategyRunCommand,jdbcType=BIGINT},
+			#{totalCount,jdbcType=TINYINT},
+			#{runCount,jdbcType=TINYINT},
+			#{remainCount,jdbcType=TINYINT},
+			#{finishTime,jdbcType=TIMESTAMP},
+			#{submitTime,jdbcType=TIMESTAMP},
+			#{hisAsync,jdbcType=TINYINT},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateTask" parameterType="TaskDTO">
+		update t_wwx_task 
+		set 
+		    `name` = #{name,jdbcType=VARCHAR},
+			`desc` = #{desc,jdbcType=VARCHAR},
+			type = #{type,jdbcType=TINYINT},
+			has_vpndes = #{hasVpndes,jdbcType=TINYINT},
+			remain_time = #{remainTime,jdbcType=BIGINT},
+			predict_time = #{predictTime,jdbcType=BIGINT},
+			dict_command = #{dictCommand,jdbcType=BIGINT},
+			dict_run_command = #{dictRunCommand,jdbcType=BIGINT},
+			strategy_command = #{strategyCommand,jdbcType=BIGINT},
+			strategy_run_command = #{strategyRunCommand,jdbcType=BIGINT},
+			total_count = #{totalCount,jdbcType=TINYINT},
+			run_count = #{runCount,jdbcType=TINYINT},
+			remain_count = #{remainCount,jdbcType=TINYINT},
+			finish_time = #{finishTime,jdbcType=TIMESTAMP},
+			submit_time = #{submitTime,jdbcType=TIMESTAMP},
+			his_async = #{hisAsync,jdbcType=TINYINT},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=BIGINT}	
+	</update>
+	
+	<delete id="deleteTask" parameterType="Long">
+		delete from t_wwx_task WHERE id = #{id,jdbcType=BIGINT}	
+	</delete>	
+	
+	<update id="deleteHistoryTask" parameterType="Long">
+		update t_wwx_task t set t.`his_async` = 9 WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<update id="setTaskToHistory" parameterType="Long">
+		update t_wwx_task t set t.`his_async` = 1 WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<update id="updateTaskPwd" parameterType="map">
+		update t_wwx_task t set t.hit_pwd = #{passWord,jdbcType=VARCHAR} WHERE id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+</mapper>

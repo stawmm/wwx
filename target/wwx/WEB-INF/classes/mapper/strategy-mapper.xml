@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.StrategyMapper">
+	
+	<select id="getStrategyById" resultType="StrategyDTO" parameterType="Long">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.`type`,
+			t.start_length startLength,
+			t.end_length endLength,
+			t.express,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM
+			t_wwx_strategy t
+		WHERE t.id = #{id,jdbcType=BIGINT}	
+	</select>
+	
+	<select id="getStrategyByName" resultType="StrategyDTO" parameterType="String">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.`type`,
+			t.start_length startLength,
+			t.end_length endLength,
+			t.express,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM
+			t_wwx_strategy t
+		WHERE t.`name` = #{name,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="findStrategys" parameterType="map" resultType="StrategyDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.`type`,
+			t.start_length startLength,
+			t.end_length endLength,
+			t.express,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM
+			t_wwx_strategy t
+		<if test="null!=searchWord and ''!=searchWord">
+    		Where ( `name` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or `desc` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		   or `express` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+    		)   
+    	</if>
+    	order by `id` desc
+	</select>
+	
+	<select id="findAllStrategys" parameterType="String" resultType="StrategyDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.`type`,
+			t.start_length startLength,
+			t.end_length endLength,
+			t.express,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM t_wwx_strategy t
+		where t.create_user = #{userName,jdbcType=VARCHAR}
+		order by `id` desc
+	</select>
+	
+	<select id="findStrategysByTaskId" parameterType="Long" resultType="StrategyDTO">
+		SELECT
+			t.id,
+			t.`name`,
+			t.`desc`,
+			t.`type`,
+			t.start_length startLength,
+			t.end_length endLength,
+			t.express,
+			t.`status`,
+			t.create_time createTime,
+			t.create_user createUser,
+			t.update_time updateTime,
+			t.update_user updateUser
+		FROM t_wwx_strategy t
+		where t.id in (
+			select strategy_id from t_wwx_task_strategy where task_id = #{jdbcType=BIGINT}
+		)
+		order by `id` desc
+	</select>
+	
+	<insert id="createStrategy" parameterType="StrategyDTO" useGeneratedKeys="true" keyProperty="id">
+		insert into t_wwx_strategy (
+			`name`,
+			`desc`,
+			`type`,
+			start_length,
+			end_length,
+			express,
+			`status`,
+			create_time,
+			create_user
+		) values (
+			#{name,jdbcType=VARCHAR},
+			#{desc,jdbcType=VARCHAR},
+			#{type,jdbcType=TINYINT},
+			#{startLength,jdbcType=BIGINT},
+			#{endLength,jdbcType=BIGINT},
+			#{express,jdbcType=VARCHAR},
+			#{status,jdbcType=TINYINT},
+			now(),
+			#{createUser,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateStrategy" parameterType="StrategyDTO">
+		update t_wwx_strategy 
+		set `name` = #{name,jdbcType=VARCHAR},
+			`desc` = #{desc,jdbcType=VARCHAR},
+			`type` = #{type,jdbcType=TINYINT},
+			start_length = #{startLength,jdbcType=BIGINT},
+			end_length = #{endLength,jdbcType=BIGINT},
+			express = #{express,jdbcType=VARCHAR},
+			`status` = #{status,jdbcType=TINYINT},
+			update_time = now(),
+			update_user = #{updateUser,jdbcType=VARCHAR}
+		WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<delete id="deleteStrategy" parameterType="Long">
+		delete from t_wwx_strategy WHERE id = #{id,jdbcType=BIGINT}	
+	</delete>
+
+	<delete id="deleteStrategyAll">
+		delete from t_wwx_strategy where id IN
+		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+	
+</mapper>

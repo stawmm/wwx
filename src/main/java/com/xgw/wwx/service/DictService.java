@@ -22,7 +22,6 @@ public interface DictService {
 
     public void deleteDict(Long id);
 
-	/*public void deleteDictAll(List delList);*/
 
     public int deleteDictAll(int[] ids);
 

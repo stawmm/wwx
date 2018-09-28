@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgw.wwx.mapper.HzLoggerMapper">
+
+    <select id="getLoggerById" parameterType="long" resultType="com.xgw.wwx.dto.db.LoggerDTO">
+        SELECT
+            t.id,
+            t.user_name userName,
+            t.mode_type modeType,
+            t.action_msg actionMsg,
+            t.success_msg successMsg,
+            t.error_msg errorMsg,
+            t.error_code errorCode,
+            t.`status`,
+            t.memo,
+            t.`level`,
+            t.create_user createUser,
+            t.create_time createTime,
+            t.update_user updateUser,
+            t.update_time updateTime
+        FROM
+            t_hz_logger t
+        where t.id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findLoggers" parameterType="com.xgw.wwx.dto.db.LoggerDTO" resultType="com.xgw.wwx.dto.db.LoggerDTO">
+        SELECT
+            t.id,
+            t.user_name userName,
+            t.mode_type modeType,
+            t.action_msg actionMsg,
+            t.success_msg successMsg,
+            t.error_msg errorMsg,
+            t.error_code errorCode,
+            t.`status`,
+            t.memo,
+            t.`level`,
+            t.create_user createUser,
+            t.create_time createTime,
+            t.update_user updateUser,
+            t.update_time updateTime
+        FROM t_hz_logger t
+        where 1=1
+        <if test="null!=searchWord and ''!=searchWord">
+            And ( `action_msg` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+            or `mode_type` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+            or `memo` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+            or `user_name` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+            or `success_msg` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+            or `level` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+            or `error_msg` like concat('%',#{searchWord,jdbcType=VARCHAR},'%')
+            )
+        </if>
+        order by id desc
+    </select>
+
+    <insert id="createLogger" parameterType="com.xgw.wwx.dto.db.LoggerDTO" keyProperty="id" useGeneratedKeys="true">
+        insert into t_hz_logger (
+            user_name,
+            mode_type,
+            action_msg,
+            success_msg,
+            error_msg,
+            error_code,
+            `status`,
+            memo,
+            `level`,
+            create_user,
+            create_time
+        ) values (
+            #{userName,jdbcType=VARCHAR},
+            #{modeType,jdbcType=VARCHAR},
+            #{actionMsg,jdbcType=VARCHAR},
+            #{successMsg,jdbcType=VARCHAR},
+            #{errorMsg,jdbcType=VARCHAR},
+            #{errorCode,jdbcType=VARCHAR},
+            #{status,jdbcType=TINYINT},
+            #{memo,jdbcType=VARCHAR},
+            #{level,jdbcType=VARCHAR},
+            #{createUser,jdbcType=VARCHAR},
+            now()
+        )
+    </insert>
+
+    <update id="updateLogger" parameterType="com.xgw.wwx.dto.db.LoggerDTO">
+        update t_hz_logger
+        set user_name = #{userName,jdbcType=VARCHAR},
+            mode_type = #{modeType,jdbcType=VARCHAR},
+            action_msg =  #{actionMsg,jdbcType=VARCHAR},
+            success_msg = #{successMsg,jdbcType=VARCHAR},
+            error_msg = #{errorMsg,jdbcType=VARCHAR},
+            error_code = #{errorCode,jdbcType=VARCHAR},
+            `status` = #{status,jdbcType=TINYINT},
+            memo = #{memo,jdbcType=VARCHAR},
+            `level` = #{level,jdbcType=VARCHAR},
+            update_user = #{updateUser,jdbcType=VARCHAR},
+            update_time =  now()
+        where t.id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteLogger" parameterType="Long">
+        delete from `t_hz_logger` where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="clearLogger">
+        truncate table `t_hz_logger`
+    </delete>
+
+    <select id="findLoggersByLevel" parameterType="string" resultType="com.xgw.wwx.dto.db.LoggerDTO">
+        SELECT
+            t.id,
+            t.user_name userName,
+            t.mode_type modeType,
+            t.action_msg actionMsg,
+            t.success_msg successMsg,
+            t.error_msg errorMsg,
+            t.error_code errorCode,
+            t.`status`,
+            t.memo,
+            t.`level`,
+            t.create_user createUser,
+            t.create_time createTime,
+            t.update_user updateUser,
+            t.update_time updateTime
+        FROM
+            t_hz_logger t
+        where t.level = #{level,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findAlertLoggers" resultType="com.xgw.wwx.dto.db.LoggerDTO">
+        SELECT
+            t.id,
+            t.user_name userName,
+            t.mode_type modeType,
+            t.action_msg actionMsg,
+            t.success_msg successMsg,
+            t.error_msg errorMsg,
+            t.error_code errorCode,
+            t.`status`,
+            t.memo,
+            t.`level`,
+            t.create_user createUser,
+            t.create_time createTime,
+            t.update_user updateUser,
+            t.update_time updateTime
+        FROM
+            t_hz_logger t
+        where t.level = 'ALERT'
+        and memo = 'unview'
+        and t.create_time > date_sub(now() ,interval 3 day)
+    </select>
+    
+    <update id="updateAlertLoggers">
+    	update t_hz_logger set memo = 'view' where level = 'ALERT'
+    </update>
+
+</mapper>
