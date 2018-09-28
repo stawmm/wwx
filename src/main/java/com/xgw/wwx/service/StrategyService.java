@@ -22,6 +22,8 @@ public interface StrategyService {
     
     public void updateStrategy(StrategyDTO strategyDTO);
 
+	public int deleteStrategyAll(int[] ids);
+
     public void deleteStrategy(Long id);
 
 	public List<Map<String, Object>> findStrategyType();

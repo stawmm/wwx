@@ -2,6 +2,7 @@ package com.xgw.wwx.test;
 
 
 import com.xgw.wwx.mapper.DictMapper;
+import com.xgw.wwx.mapper.StrategyMapper;
 import com.xgw.wwx.mapper.UserMapper;
 
 import org.junit.Ignore;
@@ -21,6 +22,9 @@ public class HttpUtilTest {
 
 	@Autowired
 	private UserMapper userMapper;
+
+	@Autowired
+	private StrategyMapper strategyMapper;
 
 	@Test
 	@Ignore
@@ -54,6 +58,16 @@ public class HttpUtilTest {
 		System.out.println("测试开始====================================");
 		dictMapper.deleteDict(3L);
 		System.out.println("成功=========================================");
+	}
+
+	@Test
+	@Ignore
+	public void testdeleteStrategyAll(){
+		System.out.println("测试开始==========================");
+		//简单验证结果集是否正确
+		int[] ids={1,2};
+		strategyMapper.deleteStrategyAll(ids);
+		System.out.println("成功=============================");
 	}
 
 
