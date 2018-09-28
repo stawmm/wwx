@@ -177,26 +177,6 @@ public class DictController {
 		}
 	}
 
-	/*@DeleteMapping("/deleteAll")
-	public ResponseEntity<CommonResponseDTO<Boolean>> deleteDictAll(HttpServletRequest request, @RequestParam("id") String id) {
-		String userName = AuthHelper.getUserName(request);
-		Long dictid = Long.parseLong(request.getParameter("id"));
-		try {
-			dictService.deleteDict(dictid);
-			hzLoggerService.createSuccessLogger(userName, "删除字典", "字典模块", "用户“" + userName + "”删除字典,字典组：“"  + "”成功！");
-			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(Boolean.TRUE, true));
-		} catch (WxxRuntimeException e) {
-			logger.error("-- deleteDict Exception error --", e);
-			hzLoggerService.createFailedLogger(userName, "删除字典", "字典模块", e.getCode(), "用户“" + userName + "”删除字典,字典组：“"  + "”失败！错误：" + e.getMessage());
-			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(e.getCode(), e.getMessage()));
-		} catch (Exception e) {
-			logger.error("-- deleteDict Exception error --", e);
-			hzLoggerService.createFailedLogger(userName, "删除字典", "字典模块", BaseCodeEnum.SYSTEM_ERROR.getCode(), "用户“" + userName + "”删除字典,字典组：“" + "”失败！错误：" + BaseCodeEnum.SYSTEM_ERROR.getMessage());
-			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(BaseCodeEnum.SYSTEM_ERROR.getCode(), BaseCodeEnum.SYSTEM_ERROR.getMessage()));
-		}
-	}*/
-
-
 	@DeleteMapping("/deleteAll")
 	public ResponseEntity<CommonResponseDTO<Boolean>> deleteDictAll( HttpServletRequest request,@RequestParam("id") int[] id ) {
 		String userName = AuthHelper.getUserName(request);
