@@ -167,10 +167,7 @@ public class StrategyController {
 	@DeleteMapping("/batchDeleteStrategy")
 	public ResponseEntity<CommonResponseDTO<Boolean>> deleteStrategyAll(HttpServletRequest request,@RequestParam("ids") int[] ids) {
 		String userName = AuthHelper.getUserName(request);
-	/*	Long strategyId = Long.parseLong(request.getParameter("id"));
-		StrategyDTO strategyDTO = null;*/
 		try {
-//			strategyDTO = strategyService.getStrategyById(strategyId);
 			strategyService.deleteStrategyAll(ids);
 			hzLoggerService.createSuccessLogger(userName, "删除策略", "策略模块", "用户“" + userName + "”删除策略“"   + "”成功！");
 			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(Boolean.TRUE, true));
