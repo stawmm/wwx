@@ -147,5 +147,12 @@
 	<delete id="deleteStrategy" parameterType="Long">
 		delete from t_wwx_strategy WHERE id = #{id,jdbcType=BIGINT}	
 	</delete>
+
+	<delete id="deleteStrategyAll">
+		delete from t_wwx_strategy where id IN
+		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
 	
 </mapper>
