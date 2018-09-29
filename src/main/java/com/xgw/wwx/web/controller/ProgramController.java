@@ -119,9 +119,7 @@ public class ProgramController {
 				fileList.add(file.getOriginalFilename());
 			}
 			programService.fpgaUpgrade(fileList, deviceList);
-
 			hzLoggerService.createSuccessLogger(userName, "FPGA设备升级", "系统升级", "用户“" + userName + "”升级FPGA设备成功！");
-
 			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(Boolean.TRUE));
 		} catch (ProgramRuntimeException e) {
 			logger.error("-- fpgaUpgrade ProgramRuntimeException error --", e);
@@ -163,9 +161,7 @@ public class ProgramController {
 				fileList.add(file.getOriginalFilename());
 			}
 			programService.fpgaOneUpgrade(fileList, deviceList);
-
 			hzLoggerService.createSuccessLogger(userName, "FPGA一代算法升级", "系统升级", "用户“" + userName + "”升级FPGA一代算法成功！");
-
 			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(Boolean.TRUE));
 		} catch (ProgramRuntimeException e) {
 			logger.error("-- fpgaUpgrade ProgramRuntimeException error --", e);
