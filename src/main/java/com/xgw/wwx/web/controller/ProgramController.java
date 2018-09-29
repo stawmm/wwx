@@ -147,7 +147,6 @@ public class ProgramController {
 			}
 			if (null == files || files.length == 0) {
 				throw new ProgramRuntimeException("UPGRADE_FILE_IS_EMPTY", "上传文件为空");
-
 			}
 			List<Long> deviceList = new ArrayList<Long>();
 			if (StringUtils.isNotBlank(deviceIds)) {
