@@ -98,10 +98,6 @@ public class DictServiceImpl implements DictService {
         return dictMapper.deleteDictAll(ids);
     }
 
-	/*@Override
-	public void  deleteDictAll(List<Integer> ids){
-		  dictMapper.deleteDictAll(ids);
-	}*/
 
     @Override
 	public void distributionDict(DictDTO dictDTO) {

@@ -22,9 +22,6 @@ public interface DictMapper {
 
     public int deleteDictAll(int[] ids);
 
-	/*public int  deleteDictAll(List ids);*/
-
-/*	void deleteDictAll(List<Integer> ids);*/
 
 	public DictDTO getDictByName(String name);
 
