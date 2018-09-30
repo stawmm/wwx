@@ -255,7 +255,7 @@ public class ProgramController {
 			logger.error("-- dictUpgrade Exception error --", e);
 			hzLoggerService.createFailedLogger(userName, "字典升级", "系统升级", BaseCodeEnum.SYSTEM_ERROR.getCode(), "用户“" + userName + "”升级字典失败！错误：" + BaseCodeEnum.SYSTEM_ERROR.getMessage());
 			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(BaseCodeEnum.SYSTEM_ERROR.getCode(), BaseCodeEnum.SYSTEM_ERROR.getMessage()));
-		}
+		 }
 	}
 
 }
