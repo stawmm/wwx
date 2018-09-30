@@ -237,7 +237,6 @@ public class ProgramController {
 			if (deviceList.isEmpty()) {
 				throw new ProgramRuntimeException("UPGRADE_DEVICE_IS_EMPTY", "设备列表为空");
 			}
-
 			if (fileList.isEmpty()) {
 				throw new ProgramRuntimeException("UPGRADE_FILE_IS_EMPTY", "上传文件为空");
 			}
