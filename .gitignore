@@ -3,6 +3,3 @@
 *.ipr
 *.iws
 .idea/
-
-#gradle
-.gradle/
