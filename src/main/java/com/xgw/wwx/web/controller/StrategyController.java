@@ -164,7 +164,7 @@ public class StrategyController {
 		}
 	}
 
-	@DeleteMapping("/batchDeleteStrategy")
+	/*@DeleteMapping("/batchDeleteStrategy")
 	public ResponseEntity<CommonResponseDTO<Boolean>> deleteStrategyAll(HttpServletRequest request,@RequestParam("ids") int[] ids) {
 		String userName = AuthHelper.getUserName(request);
 		try {
@@ -179,9 +179,9 @@ public class StrategyController {
 			logger.error("-- deleteStrategy Exception error --", e);
 			hzLoggerService.createFailedLogger(userName, "删除策略", "策略模块", BaseCodeEnum.SYSTEM_ERROR.getCode(), "用户“" + userName + "”删除策略“"  + "”失败！错误：" + BaseCodeEnum.SYSTEM_ERROR.getMessage());
 			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(BaseCodeEnum.SYSTEM_ERROR.getCode(), BaseCodeEnum.SYSTEM_ERROR.getMessage()));
-		}
-	}
-	
+		}*//*
+	}*/
+
 	@GetMapping(value = "/type/list")
 	public ResponseEntity<CommonResponseDTO<List<Map<String, Object>>>> findStrategyType() {
 		try {

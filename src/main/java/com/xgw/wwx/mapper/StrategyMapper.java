@@ -19,7 +19,7 @@ public interface StrategyMapper {
 
 	public void deleteStrategy(Long id);
 
-	public int deleteStrategyAll(int[] ids);
+	/*public int deleteStrategyAll(int[] ids);*/
 
 	public List<StrategyDTO> findAllStrategys(String userName);
 

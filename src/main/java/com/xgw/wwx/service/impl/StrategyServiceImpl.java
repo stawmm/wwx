@@ -72,10 +72,10 @@ public class StrategyServiceImpl implements StrategyService {
 		strategyMapper.deleteStrategy(id);
 	}
 
-	@Override
+	/*@Override
 	public int  deleteStrategyAll(int[] ids) {
 		return  strategyMapper.deleteStrategyAll(ids);
-	}
+	}*/
 
 	@Override
 	public List<Map<String, Object>> findStrategyType() {
