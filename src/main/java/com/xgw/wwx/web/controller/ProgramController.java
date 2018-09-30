@@ -56,7 +56,6 @@ public class ProgramController {
 			}
 			if (null == files || files.length == 0) {
 				throw new ProgramRuntimeException("UPGRADE_FILE_IS_EMPTY", "上传文件为空");
-
 			}
 			List<String> fileList = new ArrayList<String>();
 			for (MultipartFile file : files) {
@@ -73,10 +72,8 @@ public class ProgramController {
 				}
 			}
 			programService.gpuUpgrade(fileList, deviceList);
-
 			// gpu程序升级
 			hzLoggerService.createSuccessLogger(userName, "GPU设备升级", "系统升级", "用户“" + userName + "”升级GPU设备成功！");
-
 			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(Boolean.TRUE));
 		} catch (ProgramRuntimeException e) {
 			logger.error("-- gpuUpgrade ProgramRuntimeException error --", e);
@@ -102,7 +99,6 @@ public class ProgramController {
 			}
 			if (null == files || files.length == 0) {
 				throw new ProgramRuntimeException("UPGRADE_FILE_IS_EMPTY", "上传文件为空");
-
 			}
 			List<Long> deviceList = new ArrayList<Long>();
 			if (StringUtils.isNotBlank(deviceIds)) {
@@ -187,7 +183,6 @@ public class ProgramController {
 			}
 			if (null == files || files.length == 0) {
 				throw new ProgramRuntimeException("UPGRADE_FILE_IS_EMPTY", "上传文件为空");
-
 			}
 			List<Long> deviceList = new ArrayList<Long>();
 			if (StringUtils.isNotBlank(deviceIds)) {
@@ -204,9 +199,7 @@ public class ProgramController {
 				fileList.add(file.getOriginalFilename());
 			}
 			programService.fpgaTwoUpgrade(fileList, deviceList);
-
 			hzLoggerService.createSuccessLogger(userName, "FPGA二代算法升级", "系统升级", "用户“" + userName + "”升级FPGA二代算法成功！");
-
 			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(Boolean.TRUE));
 		} catch (ProgramRuntimeException e) {
 			logger.error("-- fpgaUpgrade ProgramRuntimeException error --", e);
@@ -247,12 +240,9 @@ public class ProgramController {
 
 			if (fileList.isEmpty()) {
 				throw new ProgramRuntimeException("UPGRADE_FILE_IS_EMPTY", "上传文件为空");
-
 			}
 			programService.dictUpgrade(fileList, deviceList);
-
 			hzLoggerService.createSuccessLogger(userName, "字典升级", "系统升级", "用户“" + userName + "”升级字典成功！");
-
 			return ResponseEntity.ok(new CommonResponseDTO<Boolean>(Boolean.TRUE));
 		} catch (ProgramRuntimeException e) {
 			logger.error("-- dictUpgrade ProgramRuntimeException error --", e);
