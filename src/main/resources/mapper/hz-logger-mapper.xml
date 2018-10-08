@@ -127,14 +127,14 @@
             t_hz_logger t
         where t.level = #{level,jdbcType=VARCHAR}
     </select>
-    <!--date_sub(now() ,interval 3 day) 表示now()前3天的时间也就是大前天   -->)
+    <!--date_sub(now() ,interval 3 day) 表示now()前3天的时间也就是大前天   -->
     <select id="findAlertLoggers" resultType="com.xgw.wwx.dto.db.LoggerDTO">
         SELECT
             t.id,
             t.user_name userName,
             t.mode_type modeType,
             t.action_msg actionMsg,
-            t.success_msg successMsg,·
+            t.success_msg successMsg,
             t.error_msg errorMsg,
             t.error_code errorCode,
             t.`status`,
