@@ -66,7 +66,7 @@ public class HttpUtilTest {
 		System.out.println("测试开始==========================");
 		//简单验证结果集是否正确
 		int[] ids={1,2};
-		strategyMapper.deleteStrategyAll(ids);
+		/*strategyMapper.deleteStrategyAll(ids);*/
 		System.out.println("成功=============================");
 	}
 
