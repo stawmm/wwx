@@ -147,7 +147,7 @@
         FROM
             t_hz_logger t
         where t.level = 'ALERT'
-        and memo = 'unview'
+        and updateAlertLoggers = 'unview'
         and t.create_time > date_sub(now() ,interval 3 day)
     </select>
     
