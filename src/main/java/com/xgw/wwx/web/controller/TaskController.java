@@ -288,6 +288,7 @@ public class TaskController {
 				File tempFile = new File(carryPath);
 				FileUtil.createFile(tempFile);
 				file.transferTo(tempFile);
+
 				CarryDTO carryDTO = taskService.taskCarryOn(carryPath, algId);
 				logger.info("-- fileCarryOn message carryDTO=[{}] --", carryDTO);
 				if (!carryDTO.isResult()) {
