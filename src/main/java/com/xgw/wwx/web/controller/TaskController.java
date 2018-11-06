@@ -301,7 +301,7 @@ public class TaskController {
 				}
 				carryDTO.setFileName(file.getOriginalFilename());
 				carryDTO.setCarryPath(carryPath);
-				// 天加到set
+				// 天加到setl
 				hashModelSet.add(carryDTO.getHashModel());
 				// 添加到list
 				carryDTOS.add(carryDTO);
