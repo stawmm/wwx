@@ -34,6 +34,7 @@ public class CommandServiceImpl implements CommandService {
 		if (null != results && !results.isEmpty()) {
 			for (int index = 0; index < results.size(); index++) {
 				String strLine = results.get(index);
+				//判断strLine 字符串是否  不为空且长度不为0且不由空白符  截取的key 、 value 和 carryDTO对象里面的字段对应
 				if(StringUtils.isNotBlank(strLine)) {
 					String[] lineArray = strLine.split(":");
 					if (lineArray.length == 2) {
