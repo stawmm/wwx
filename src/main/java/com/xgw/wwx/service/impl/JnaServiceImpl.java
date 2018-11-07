@@ -124,7 +124,7 @@ public class JnaServiceImpl implements JnaService {
 
 			public byte finish = 0;//是否完成
 
-			public byte[] desLoc = new byte[17];//切片定位s
+			public byte[] desLoc = new byte[17];//切片定位
 
 			public byte[] output = new byte[64];//切片文件路径
 
