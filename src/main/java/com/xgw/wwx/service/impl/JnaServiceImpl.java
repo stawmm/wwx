@@ -78,21 +78,21 @@ public class JnaServiceImpl implements JnaService {
 			public MaskSliceLocation() {
 			}
 
-			public byte vaild = 1;
+			public byte vaild = 1;//是否有效
 
-			public byte finish = 0;
+			public byte finish = 0;//是否完成
 
-			public byte[] filePath = new byte[256];
+			public byte[] filePath = new byte[256];//文件路径
 
-			public long fileLoc = 0l;
+			public long fileLoc = 0l;//mask文件内容位置偏移
 
-			public byte[] currentMask = new byte[256];
+			public byte[] currentMask = new byte[256];//将要切片的掩码
 
-			public int offsetLoc = 0;
+			public int offsetLoc = 0;//表示掩码切分位
 
-			public byte[] output = new byte[64];
+			public byte[] output = new byte[64];//切片文件输出路径
 
-			public byte[] cutFileName = new byte[512];
+			public byte[] cutFileName = new byte[512];//切片文件名称
 
 			@Override
 			protected List<String> getFieldOrder() {
