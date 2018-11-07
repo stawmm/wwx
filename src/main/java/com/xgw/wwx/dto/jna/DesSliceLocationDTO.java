@@ -2,15 +2,15 @@ package com.xgw.wwx.dto.jna;
 
 public class DesSliceLocationDTO {
 
-	private byte vaild = 1;
+	private byte vaild = 1;//是否有效
 
-	private byte finish = 0;
+	private byte finish = 0;//是否完成
 
-	private String desLoc;
+	private String desLoc;//切片定位
 
-	private String output;
+	private String output;//切片文件输出路径
 
-	private String[] cutFileName;
+	private String[] cutFileName;//切片文件名
 
 	public byte getVaild() {
 		return vaild;

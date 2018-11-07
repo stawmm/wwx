@@ -2,21 +2,21 @@ package com.xgw.wwx.dto.jna;
 
 public class MaskSliceLocationDTO {
 
-	private byte vaild = 1;
+	private byte vaild = 1;//是否有效
 
-	private byte finish = 0;
+	private byte finish = 0;//是否完成
 
-	private String filePath;
+	private String filePath;//文件路径
 
-	private Long fileLoc = 0l;
+	private Long fileLoc = 0l;//mask文件内容位置偏移
 
-	private String currentMask = "0x00";
+	private String currentMask = "0x00";//将要切片的掩码
 
-	private int offsetLoc = 0;
+	private int offsetLoc = 0;//表示掩码切分位
 
-	private String output;
+	private String output;//切片文件输出路径
 
-	private String[] cutFileName;
+	private String[] cutFileName;//切片文件名
 
 	public byte getVaild() {
 		return vaild;
