@@ -120,15 +120,15 @@ public class JnaServiceImpl implements JnaService {
 			public DesSliceLocation() {
 			}
 
-			public byte vaild = 1;
+			public byte vaild = 1;//是否有效
 
-			public byte finish = 0;
+			public byte finish = 0;//是否完成
 
-			public byte[] desLoc = new byte[17];
+			public byte[] desLoc = new byte[17];//切片定位s
 
-			public byte[] output = new byte[64];
+			public byte[] output = new byte[64];//切片文件路径
 
-			public byte[] cutFileName = new byte[512];
+			public byte[] cutFileName = new byte[512];//切片文件名
 
 			@Override
 			protected List<String> getFieldOrder() {
