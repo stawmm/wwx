@@ -4,15 +4,15 @@ public class DesDTO {
 
 	private long id;
 
-	private int jmtype;
+	private int jmtype;//节点类型
 
-	private int cardnum;
+	private int cardnum;//板卡数量
 
-	private long speed;
+	private long speed;//速率
 
-	private int sunzinum;
+	private int sunzinum;//算核
 
-	private DesSliceLocationDTO sliceLoc;
+	private DesSliceLocationDTO sliceLoc;//
 
 	private DesSliceLocationDTO result;
 
