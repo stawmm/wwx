@@ -50,8 +50,11 @@ public class FtpUtil {
 			if (!FTPReply.isPositiveCompletion(replyCode)) {
 				return flag;
 			}
+			// 设置以二进制流的方式传输
 			ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+			// 创建FTP服务器目录
 			ftpClient.makeDirectory(pathname);
+			// 改变FTP服务器目录
 			ftpClient.changeWorkingDirectory(pathname);
 			ftpClient.storeFile(fileName, inputStream);
 			inputStream.close();
