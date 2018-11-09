@@ -12,6 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+import static com.xgw.wwx.common.util.FtpUtil.uploadFile;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -69,6 +75,17 @@ public class HttpUtilTest {
 		/*strategyMapper.deleteStrategyAll(ids);*/
 		System.out.println("成功=============================");
 	}
+	@Test
+	public void testUpLoadFromDisk(){
+		try {
+			FileInputStream in=new FileInputStream(new File("D:/test.txt"));
+			boolean flag = uploadFile("localhost", 21, "zhongjun", "123456", "/", "test.txt", in);
+			System.out.println(flag);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 
 
