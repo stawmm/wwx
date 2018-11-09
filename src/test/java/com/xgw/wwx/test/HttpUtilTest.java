@@ -76,6 +76,7 @@ public class HttpUtilTest {
 		System.out.println("成功=============================");
 	}
 	@Test
+	@Ignore
 	public void testUpLoadFromDisk(){
 		try {
 			FileInputStream in=new FileInputStream(new File("D:/test.txt"));
