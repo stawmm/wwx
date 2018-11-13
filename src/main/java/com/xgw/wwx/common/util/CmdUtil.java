@@ -84,9 +84,11 @@ public class CmdUtil {
 		List<String> results = null;
 		try {
 			results = new ArrayList<String>();
+			//执行命令
 			ProcessBuilder processBuilder = new ProcessBuilder(new String[] { "/bin/bash", "-c", "\"\"" + command + "\"\"" });
 			processBuilder.redirectErrorStream(true);
 			Process p = processBuilder.directory(currentDirectory).start();
+			//读取
 			br = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String line = null;
 			while ((line = br.readLine()) != null) {
