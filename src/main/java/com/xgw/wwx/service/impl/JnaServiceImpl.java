@@ -252,7 +252,6 @@ public class JnaServiceImpl implements JnaService {
 					}
 					referMap.put(mapKey, pmbr);
 				}
-
 			} else {
 				long taskId = getTaskId(mapKey);
 				logger.debug("---------------- Password_MaskSlices slice failed taskId: {}--------------------", taskId);
