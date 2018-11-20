@@ -45,7 +45,7 @@ public class ReadTaskFileJob implements Job {
 
     }
     /**
-     * 获取文件夹下所有文件名11
+     * 获取文件夹下所有文件名(不能递归拿到文件)
      */
     public static List<String> getFile(String path) {
         // get file list where the path has
@@ -63,7 +63,7 @@ public class ReadTaskFileJob implements Job {
         return names;
     }
     /**
-     * 获取文件夹下所有文件名222
+     * 获取文件夹下所有文件名(可以递归拿到文件名)
      */
     public static List<File> getFiles(String path){
         File file = new File(path);
