@@ -1,5 +1,6 @@
 package com.xgw.wwx.startup;
 
+import com.xgw.wwx.config.job.ReadTaskFileJob;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
@@ -38,7 +39,13 @@ public class ScheduleRunner implements CommandLineRunner {
 		CronScheduleBuilder historyCron = CronScheduleBuilder.cronSchedule("0 0/15 * * * ?").withMisfireHandlingInstructionDoNothing();
 		CronTrigger historyTrigger = TriggerBuilder.newTrigger().withIdentity("historyTrigger").withSchedule(historyCron).build();
 
+		//读取任务文件
+		JobDetail readJob = JobBuilder.newJob(ReadTaskFileJob.class).withIdentity("readTaskFileJob", "readTaskFileGroup").build();
+		CronScheduleBuilder readJobCron = CronScheduleBuilder.cronSchedule("0 0/1 * * * ?").withMisfireHandlingInstructionDoNothing();
+		CronTrigger readJobTrigger = TriggerBuilder.newTrigger().withIdentity("readJobTrigger").withSchedule(readJobCron).build();
+
 		scheduler.scheduleJob(taskJob, taskJobTrigger);
 		scheduler.scheduleJob(historyJob, historyTrigger);
+		scheduler.scheduleJob(readJob, readJobTrigger);
 	}
 }
