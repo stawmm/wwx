@@ -161,7 +161,6 @@ com\xgw\wwx\service\ftp\FtpService.class
 com\xgw\wwx\service\RequestService.class
 com\xgw\wwx\dto\db\TaskMaskSliceDTO.class
 com\xgw\wwx\web\controller\DictMapController.class
-com\xgw\wwx\web\controller\TestController.class
 com\xgw\wwx\common\constant\WebUrlConstant.class
 com\xgw\wwx\service\impl\DeviceServiceImpl.class
 com\xgw\wwx\service\impl\JnaServiceImpl$PwdsliceLibrary$MaskSliceLocation$ByValue.class
