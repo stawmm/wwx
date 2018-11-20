@@ -27,11 +27,11 @@ public class ReadTaskFileJob implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-        logger.debug("-- ReadTaskFileJob execute start --"+ df.format(new Date()));
+        logger.debug("-- ReadTaskFileJob execute start --  "+ df.format(new Date()));
        /* readAllFile("E:\\images");*/
         getFile("E:\\images");
         System.out.println(listname.size());
-        logger.debug("-- ReadTaskFileJob execute end --" + df.format(new Date()));
+        logger.debug("-- ReadTaskFileJob execute end --  " + df.format(new Date()));
 
     }
     /**
