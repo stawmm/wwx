@@ -88,6 +88,25 @@
 	
 	<delete id="deleteTaskFile" parameterType="Long">
 		delete from t_wwx_task_file WHERE id = #{id,jdbcType=BIGINT}	
-	</delete>	
+	</delete>
+
+	<select id="getTaskFileByPath" parameterType="String" resultType="TaskFileDTO">
+		select t.id,
+		t.`task_id` taskId,
+		t.`file_name` fileName,
+		t.`file_path` filePath,
+		t.`alg_name` algName,
+		t.`alg_id` algId,
+		t.`special_char` specialChar,
+		t.`special_file_name` specialFileName,
+		t.`special_file_path` specialFilePath,
+		t.`status`,
+		t.create_time createTime,
+		t.create_user createUser,
+		t.update_time updateTime,
+		t.update_user updateUser
+		from t_wwx_task_file t
+		WHERE t.file_path = #{filePath,jdbcType=BIGINT}
+	</select>
 	
 </mapper>

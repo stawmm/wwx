@@ -88,6 +88,6 @@
 	
 	<delete id="deleteTaskFile" parameterType="Long">
 		delete from t_wwx_task_file WHERE id = #{id,jdbcType=BIGINT}	
-	</delete>	
+	</delete>
 	
 </mapper>

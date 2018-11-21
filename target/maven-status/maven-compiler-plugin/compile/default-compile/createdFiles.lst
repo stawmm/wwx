@@ -44,6 +44,7 @@ com\xgw\wwx\common\helper\LogPathHelper.class
 com\xgw\wwx\service\impl\TaskServiceImpl.class
 com\xgw\wwx\dto\request\DeviceRespDTO.class
 com\xgw\wwx\dto\db\DictMapDTO.class
+com\xgw\wwx\config\job\ReadTaskFileJob.class
 com\xgw\wwx\dto\request\AlgRespDTO.class
 com\xgw\wwx\mapper\DictMapper.class
 com\xgw\wwx\service\impl\JnaServiceImpl$PwdsliceLibrary$MaskSliceLocation$ByReference.class
