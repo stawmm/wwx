@@ -2,8 +2,6 @@ package com.xgw.wwx.config.job;
 
 import com.xgw.wwx.common.exception.WxxRuntimeException;
 import com.xgw.wwx.dto.db.CarryDTO;
-import com.xgw.wwx.dto.db.TaskFileDTO;
-import com.xgw.wwx.mapper.TaskFileMapper;
 import com.xgw.wwx.service.TaskService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
