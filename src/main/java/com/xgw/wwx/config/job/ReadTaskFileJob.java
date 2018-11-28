@@ -103,21 +103,6 @@ public class ReadTaskFileJob implements Job {
         }
         return names;
     }
-    /**
-     * 获取文件夹下所有文件名(可以递归拿到文件名)
-     */
-   /* public static List<File> getFiles(String path){
-        File file = new File(path);
-        List<File> files = new ArrayList<File>();
-        if(!file.isDirectory()){
-            files.add(file);
-        }else{
-            File[] subFiles = file.listFiles();
-            for(File f : subFiles){
-                files.addAll(getFiles(f.getAbsolutePath()));
-            }
-        }
-        return files;
-    }*/
+
 
 }
