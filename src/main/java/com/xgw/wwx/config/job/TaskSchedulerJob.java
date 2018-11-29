@@ -180,11 +180,11 @@ public class TaskSchedulerJob implements Job {
 									// 查看远程子任务的状态
 									status = taskService.getSubTaskStatus(deviceDTO, subTaskDTO);
 									logger.debug("-- device[ip={},port={}] getSubTaskStatus={} --", deviceDTO.getIp(), deviceDTO.getPort(), status);
-									// 更新子任务状态
+									// 更新子任务状态  FAILED 9 失败
 									if (status == ResultStatusType.FAILED.getStatus()) {
-										// 获取主任务
+										// 获取主任务   通过子任务中的taskId
 										TaskDTO taskDTO = taskService.getTaskById(subTaskDTO.getTaskId());
-										// 子任务故障
+										// 子任务故障 FAULT 4 已故障
 										subTaskDTO.setStatus(TaskStatusType.FAULT.getStatus());
 										taskService.updateSubTask(subTaskDTO);
 										logger.debug("-- device alert updateSubTask end --");
@@ -219,7 +219,9 @@ public class TaskSchedulerJob implements Job {
 										logger.debug("-- hitResultList pwds pwds:{} --", pwds);
 										// 获取主任务
 										TaskDTO taskDTO = taskService.getTaskById(subTaskDTO.getTaskId());
+										//isNotBlank   等价于 str != null && str.length > 0 && str.trim().length > 0
 										if (StringUtils.isNotBlank(taskDTO.getHitPwd())) {
+											//Pwd转成bean
 											List<String> hitpwds = GsonUtil.GsonToBean(taskDTO.getHitPwd(), List.class);
 											logger.debug("-- hitResultList db hitpwds:{} --", hitpwds);
 											// key11命中
@@ -286,7 +288,7 @@ public class TaskSchedulerJob implements Job {
 											if (null != taskDTO) {
 												taskDTO.setStatus(TaskStatusType.HIT.getStatus());
 												taskDTO.setFinishTime(new Date());
-												taskDTO.setRemainTime(0l);
+												taskDTO.setRemainTime(0l);//剩余时间
 												taskService.updateTask(taskDTO);
 
 												// 更新主任状态日志
