@@ -72,6 +72,7 @@ public class ReadTaskFileJob implements Job {
 
         //字典预估时间
         TaskTimeCountDTO taskTimeCountDTO = new TaskTimeCountDTO();
+
         Long count = taskService.vpndesTimeCount(taskTimeCountDTO);
         //策略预估时间
         logger.info("---------: {}", taskTimeCountDTO.getSpeed());
