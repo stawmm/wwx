@@ -81,7 +81,9 @@ public class ReadTaskFileJob implements Job {
         //4.创建任务
         TaskDTO taskDTO = new TaskDTO();
         List<TaskFileDTO> filelist = taskDTO.getFiles();
-
+        if (null == filelist || filelist.isEmpty()) {
+            throw new WxxRuntimeException("TASK_FILE_CARRY_EMPTY", "任务破解文件列表为空");
+        }
         // 批量创建任务
         for (TaskFileDTO file1 : filelist) {
             taskDTO.setFile(file1);
